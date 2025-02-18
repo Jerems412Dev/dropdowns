@@ -10,4 +10,4 @@ It's simple Dropdowns menu
 
 ## Link
 
-Here's a [link](https://dropdowns.vercel.app/) for Demo website
+Here's a [link](https://dropdowns-eight.vercel.app/) for Demo website
