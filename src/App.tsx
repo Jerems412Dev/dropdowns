@@ -2,7 +2,7 @@ import './App.css';
 import { ChevronDown, ChevronsLeftRight, CircleUser, Ellipsis, LockKeyhole, LogIn, LogOut, Pencil, Search, Shield, Trash2, Weight } from 'lucide-react';
 import img from './assets/logo.png';
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 function App() {
   const [showOne, setShowOne] = useState(false);
@@ -28,50 +28,60 @@ function App() {
               >
                 <Ellipsis />
               </button>
-              <motion.div 
-                className={div + " w-52"}
-                initial={{ opacity: 0, y: -20, scale:0 }}
-                animate={{ opacity: showOne ? 1 : 0, y: showOne ? 0 : -20, scale: showOne ? 1 : 0 }}
-              >
-                <a href="" className={linkDiv}>
-                  <Pencil className="w-[0.8rem]" />
-                  <p className="text-xs font-[500]">Edit</p>
-                </a>
-                <a href="" className={linkDiv}>
-                  <LockKeyhole className="w-[0.8rem]" />
-                  <p className="text-xs font-[500]">Block</p>
-                </a>
-                <a href="" className={linkDiv + " text-red-600"}>
-                  <Trash2 className="w-[0.8rem]" />
-                  <p className="text-xs font-[500]">Delete</p>
-                </a>
-              </motion.div>
+              <AnimatePresence mode="wait">
+                {showOne && 
+                <motion.div
+                  key={1}
+                  className={div + " w-52"}
+                  initial={{ opacity: 0, y: -20, scale:0 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0 }}
+                >
+                  <a href="" className={linkDiv}>
+                    <Pencil className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Edit</p>
+                  </a>
+                  <a href="" className={linkDiv}>
+                    <LockKeyhole className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Block</p>
+                  </a>
+                  <a href="" className={linkDiv + " text-red-600"}>
+                    <Trash2 className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Delete</p>
+                  </a>
+                </motion.div>}
+              </AnimatePresence>
             </div>
           </div>
           <div className="flex flex-col w-full h-[50%] items-center justify-center gap-y-2">
-            <motion.div 
-              className={div + " w-48"}
-              initial={{ opacity: 0, y: 15, scaleY: 0 }}
-              animate={{ 
-                scaleY: showTwo ? 1 : 0,
-                opacity: showTwo ? 1 : 0, 
-                y: showTwo ? 0 : 15, 
-                transition: { 
-                  scaleY: { duration: 0 },
-                  duration: 0.3,
-                  type: "spring",
-                  bounce: 0.2 } 
-              }}
-            >
-              <a href="" className={linkDiv}>
-                <CircleUser className="w-[0.8rem]" />
-                <p className="text-xs font-[500]">Profile</p>
-              </a>
-              <a href="" className={linkDiv + " text-red-600"}>
-                <LogOut className="w-[0.8rem]" />
-                <p className="text-xs font-[500]">Log out</p>
-              </a>
-            </motion.div>
+            <AnimatePresence mode="wait">
+              {showTwo &&
+                <motion.div
+                  key={2} 
+                  className={div + " w-48"}
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0  
+                  }}
+                  exit={{ opacity: 0, y: 25 }}
+                  transition= {{ 
+                    duration: 0.3,
+                    type: "spring",
+                    bounce: 0.2 
+                  }}
+                >
+                  <a href="" className={linkDiv}>
+                    <CircleUser className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Profile</p>
+                  </a>
+                  <a href="" className={linkDiv + " text-red-600"}>
+                    <LogOut className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Log out</p>
+                  </a>
+                </motion.div>
+              }
+            </AnimatePresence>
             <button
               className={buttonStyle + " flex flex-row items-center justify-between gap-x-16"}
               onClick={() => setShowTwo(!showTwo)}
@@ -107,35 +117,40 @@ function App() {
               </div>
               <ChevronDown className="w-[1rem]" />
             </button>
-            <motion.div 
-              className={div + " w-51"}
-              initial={{ y: -15, height: 0, opacity: 0, scaleY: 0 }}
-              animate={{ 
-                scaleY: showThree ? 1 : 0,
-                opacity: showThree ? 1 : 0,
-                y: showThree ? 0 : -15,
-                height: showThree ? "fit-content" : 0,
-                transition: { 
-                  scaleY: { duration: 0 },
-                  opacitiy: { duration: 0 },
-                  height: { duration: 0.2 },
-                  duration: 0.5,
-                  type: "spring",
-                  bounce: 0.3 } }}
-            >
-              <a href="" className={linkDiv + " text-green-500"}>
-                <LogIn className="rotate-90 w-[0.8rem]" />
-                <p className="text-xs font-[500]">Deposit</p>
-              </a>
-              <a href="" className={linkDiv}>
-                <LogIn className="rotate-270 w-[0.8rem]" />
-                <p className="text-xs font-[500]">Withdraw</p>
-              </a>
-              <a href="" className={linkDiv}>
-                <CircleUser className="w-[0.8rem]" />
-                <p className="text-xs font-[500]">Payment Info</p>
-              </a>
-            </motion.div>
+            <AnimatePresence mode="sync">
+              {showThree &&
+                <motion.div
+                  key={3} 
+                  className={div + " w-51"}
+                  initial={{ y: -15, height: 0, opacity: 0, scaleY: 0 }}
+                  animate={{ 
+                    scaleY: 1,
+                    opacity: 1,
+                    y: 0,
+                    height: "fit-content"
+                    }}
+                    exit={{ y: -15, height: 0, opacity: 0, scaleY: 0 }}
+                    transition= {{ 
+                      height: { duration: 0.2 },
+                      duration: 0.5,
+                      type: "spring",
+                      bounce: 0.3 } }
+                >
+                  <a href="" className={linkDiv + " text-green-500"}>
+                    <LogIn className="rotate-90 w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Deposit</p>
+                  </a>
+                  <a href="" className={linkDiv}>
+                    <LogIn className="rotate-270 w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Withdraw</p>
+                  </a>
+                  <a href="" className={linkDiv}>
+                    <CircleUser className="w-[0.8rem]" />
+                    <p className="text-xs font-[500]">Payment Info</p>
+                  </a>
+                </motion.div>
+              }
+            </AnimatePresence>
           </div>
           <div className="flex flex-col w-full h-[50%] items-center justify-start gap-y-2">
             <button
@@ -145,68 +160,75 @@ function App() {
               <p className="text-xs font-[500] text-[#928d87]">Choose company</p>
               <ChevronsLeftRight className="rotate-90 w-[0.8rem]" />
             </button>
-            <motion.div 
-              className={div + " w-52"}
-              initial={{ y: -15, height: 0, scaleY: 0, opacity: 0 }}
-              animate={{ 
-                opacity: showFour ? 1 : 0,
-                scaleY: showFour ? 1 : 0,
-                y: showFour ? 0 : -15,
-                height: showFour ? "fit-content" : 0,
-                transition: { 
-                  opacitiy: { duration: 0.2 },
-                  height: { duration: 0.2 },
-                  duration: 0.5,
-                  type: "spring",
-                  bounce: 0.3 } }}
-            >
-              <div className="w-full sticky flex flex-row items-center justify-between rounded-xl px-2 py-1 bg-[#f3efec]">
-                <Search className="w-[1rem] text-[#928d87]" />
-                <input type="text" placeholder="Search" className="w-[88%] text-xs font-[500] bg-transparent outline-none" />
-              </div>
-              <div className="h-[23vh] flex flex-col gap-y-[0.15rem] overflow-y-scroll">
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Pixsellz Studio"</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Apple Inc."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Tewavoy Corp."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Global Innovative Sol..."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Pixsellz Studio"</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Apple Inc."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Tewavoy Corp."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Global Innovative Sol..."</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Pixsellz Studio"</p>
-                </a>
-                <a href="" className={linkDiv2}>
-                  <p className="text-xs font-[500]">OOO</p>
-                  <p className="text-xs font-[500]">"Apple Inc."</p>
-                </a>
-              </div>
-            </motion.div>
+            <AnimatePresence mode="wait">
+              {showFour &&
+                <motion.div 
+                  key={4}
+                  className={div + " w-52"}
+                  initial={{ y: -15, height: 0, scaleY: 0, opacity: 0 }}
+                  animate={{ 
+                    opacity: 1,
+                    scaleY: 1,
+                    y: 0,
+                    height: "fit-content"
+                  }}
+                  exit={{ y: -15, height: 0, opacity: 0, scaleY: 0 }}
+                  transition= {{ 
+                    opacity: { duration: 0.2 },
+                    height: { duration: 0.2 },
+                    duration: 0.5,
+                    type: "spring",
+                    bounce: 0.3 }}
+                >
+                  <div className="w-full sticky flex flex-row items-center justify-between rounded-xl px-2 py-1 bg-[#f3efec]">
+                    <Search className="w-[1rem] text-[#928d87]" />
+                    <input type="text" placeholder="Search" className="w-[88%] text-xs font-[500] bg-transparent outline-none" />
+                  </div>
+                  <div className="h-[23vh] flex flex-col gap-y-[0.15rem] overflow-y-scroll">
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Pixsellz Studio"</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Apple Inc."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Tewavoy Corp."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Global Innovative Sol..."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Pixsellz Studio"</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Apple Inc."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Tewavoy Corp."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Global Innovative Sol..."</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Pixsellz Studio"</p>
+                    </a>
+                    <a href="" className={linkDiv2}>
+                      <p className="text-xs font-[500]">OOO</p>
+                      <p className="text-xs font-[500]">"Apple Inc."</p>
+                    </a>
+                  </div>
+                </motion.div>
+              }
+            </AnimatePresence>
           </div>
         </div>
       </div>
